@@ -37,8 +37,8 @@ const BLOG_POST = {
   slug: "market-rate",
   date: "March 2026",
   readTime: "6 min read",
-  title: "Your Rent Isn\u2019t \u201cMarket Rate.\u201d It\u2019s Whatever the Market Can Get Away With.",
-  lede: "People keep saying rent is \u201ccooling\u201d in Canada like that means renters can finally breathe again. That\u2019s not what the data says.",
+  title: "Your Rent Isn't 'Market Rate.' It's Whatever the Market Can Get Away With.",
+  lede: "People keep saying rent is 'cooling' in Canada like that means renters can finally breathe again. That's not what the data says.",
   stats: [
     { figure: "34%", label: "more paid by recent renters vs long-term tenants (Statistics Canada)" },
     { figure: "52%", label: "gap in Toronto between new and established renters" },
@@ -52,7 +52,7 @@ const BLOG_POST = {
     },
     {
       type: "p",
-      text: "In fact, part of the reason rents look "better" is not because housing suddenly became affordable. It is because units got smaller. Rentals.ca reported that the average rental listing size in Canada dropped to 857 square feet in January 2026, down from 943 square feet two years earlier. At the same time, rent per square foot still rose 1.4% year over year. So no, renters are not suddenly getting a great deal. They are often just paying slightly less for less space.",
+      text: "In fact, part of the reason rents look 'better' is not because housing suddenly became affordable. It is because units got smaller. Rentals.ca reported that the average rental listing size in Canada dropped to 857 square feet in January 2026, down from 943 square feet two years earlier. At the same time, rent per square foot still rose 1.4% year over year. So no, renters are not suddenly getting a great deal. They are often just paying slightly less for less space.",
     },
     {
       type: "pullquote",
