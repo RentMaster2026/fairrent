@@ -37,8 +37,8 @@ const BLOG_POST = {
   slug: "market-rate",
   date: "March 2026",
   readTime: "6 min read",
-  title: "Your Rent Isn't "Market Rate." It's Whatever the Market Can Get Away With.",
-  lede: "People keep saying rent is "cooling" in Canada like that means renters can finally breathe again. That's not what the data says.",
+  title: "Your Rent Isn\u2019t \u201cMarket Rate.\u201d It\u2019s Whatever the Market Can Get Away With.",
+  lede: "People keep saying rent is \u201ccooling\u201d in Canada like that means renters can finally breathe again. That\u2019s not what the data says.",
   stats: [
     { figure: "34%", label: "more paid by recent renters vs long-term tenants (Statistics Canada)" },
     { figure: "52%", label: "gap in Toronto between new and established renters" },
