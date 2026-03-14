@@ -6,204 +6,186 @@ const supabase = createClient(
   import.meta.env.VITE_SUPABASE_ANON_KEY
 );
 
+// ─── Data ─────────────────────────────────────────────────────────────────────
+
 const CITIES = [
   {
-    key: "ottawa", name: "Ottawa", province: "Ontario",
+    key: "ottawa",
+    name: "Ottawa",
+    province: "Ontario",
     url: "https://ottawafairrent.ca",
-    desc: "35 neighbourhoods · CMHC + community data",
-    accent: "#22c55e", accentDim: "#16a34a",
+    accent: "#4ade80",
+    accentDim: "#16a34a",
+    accentBg: "rgba(74,222,128,0.08)",
+    accentBorder: "rgba(74,222,128,0.2)",
     coords: { lat: 45.42, lng: -75.69 },
-    avgRent: "$1,945", unitLabel: "1-bedroom avg",
+    avgRent: "$1,945",
+    rentRange: "$1,750 – $2,200",
+    unitLabel: "1-bedroom avg",
+    hoods: 35,
+    tag: "Ontario rent control applies",
   },
   {
-    key: "toronto", name: "Toronto", province: "Ontario",
+    key: "toronto",
+    name: "Toronto",
+    province: "Ontario",
     url: "https://torontofairrent.ca",
-    desc: "30 neighbourhoods · CMHC + community data",
-    accent: "#3b82f6", accentDim: "#2563eb",
+    accent: "#60a5fa",
+    accentDim: "#2563eb",
+    accentBg: "rgba(96,165,250,0.08)",
+    accentBorder: "rgba(96,165,250,0.2)",
     coords: { lat: 43.65, lng: -79.38 },
-    avgRent: "$2,183", unitLabel: "1-bedroom avg",
+    avgRent: "$2,183",
+    rentRange: "$1,950 – $2,450",
+    unitLabel: "1-bedroom avg",
+    hoods: 30,
+    tag: "Ontario rent control applies",
   },
   {
-    key: "vancouver", name: "Vancouver", province: "British Columbia",
+    key: "vancouver",
+    name: "Vancouver",
+    province: "British Columbia",
     url: "https://vancouverfairrent.ca",
-    desc: "31 neighbourhoods · CMHC + community data",
-    accent: "#06b6d4", accentDim: "#0891b2",
+    accent: "#22d3ee",
+    accentDim: "#0891b2",
+    accentBg: "rgba(34,211,238,0.08)",
+    accentBorder: "rgba(34,211,238,0.2)",
     coords: { lat: 49.28, lng: -123.12 },
-    avgRent: "$2,362", unitLabel: "1-bedroom avg",
+    avgRent: "$2,362",
+    rentRange: "$2,100 – $2,650",
+    unitLabel: "1-bedroom avg",
+    hoods: 31,
+    tag: "BC guideline cap applies",
   },
 ];
 
 const BLOG_POST = {
-  slug: "market-rate",
   date: "March 2026",
-  readTime: "6 min read",
+  readTime: "6 min",
   title: "Your Rent Isn't 'Market Rate.' It's Whatever the Market Can Get Away With.",
   lede: "People keep saying rent is 'cooling' in Canada like that means renters can finally breathe again. That's not what the data says.",
   stats: [
-    { figure: "34%", label: "more paid by recent renters vs long-term tenants (Statistics Canada)" },
-    { figure: "52%", label: "gap in Toronto between new and established renters" },
-    { figure: "45%", label: "of Canadians very concerned about housing affordability in 2024" },
-    { figure: "17", label: "straight months of year-over-year rent declines nationally — yet it still feels brutal" },
+    { figure: "34%", label: "more paid by recent renters vs long-term tenants" },
+    { figure: "52%", label: "new-vs-established renter gap in Toronto" },
+    { figure: "45%", label: "of Canadians very concerned about housing costs" },
+    { figure: "17mo", label: "of falling asking rents — yet it still feels brutal" },
   ],
   body: [
-    {
-      type: "p",
-      text: "Yes, average asking rent in Canada has come down a bit. Rentals.ca says the national average asking rent fell to $2,030 in February 2026, marking 17 straight months of year-over-year declines. CMHC also says the purpose-built rental vacancy rate rose to 3.1% in 2025, up from 2.2% in 2024. On paper, that sounds like relief. In real life, it still feels brutal. Because lower than a peak does not mean fair.",
-    },
-    {
-      type: "p",
-      text: "In fact, part of the reason rents look 'better' is not because housing suddenly became affordable. It is because units got smaller. Rentals.ca reported that the average rental listing size in Canada dropped to 857 square feet in January 2026, down from 943 square feet two years earlier. At the same time, rent per square foot still rose 1.4% year over year. So no, renters are not suddenly getting a great deal. They are often just paying slightly less for less space.",
-    },
-    {
-      type: "pullquote",
-      text: "Two people can live in the same city, in similar units, with the same job and same income — and one can be paying massively more just because they had the bad luck of moving later.",
-    },
-    {
-      type: "p",
-      text: "And here is the part that should make people angry: the real punishment in Canada's rental market is not just renting. It is having to move. Statistics Canada found that across Canadian cities, recent renters in 2021 were paying 34% more than renters who had been in their home for five years or more. In Toronto, that gap was 52%. In Ottawa, it was 39%. In Vancouver, it was 31%.",
-    },
-    {
-      type: "p",
-      text: "Think about that for a second. Two people can live in the same city, in similar units, with the same job and same income, and one can be paying massively more just because they had the bad luck of moving later. That is not transparency. That is not fairness. That is a penalty for not already being inside the system.",
-    },
-    {
-      type: "h2",
-      text: "People feel this — even if they don't have policy language for it",
-    },
-    {
-      type: "p",
-      text: "Statistics Canada reported that nearly half of Canadians — 45% — were very concerned about housing affordability in 2024. Among young adults aged 20 to 35, that number jumped to 59%. Half of young adults said rising prices affected their moving plans. About one-third of Canadians reported difficulty meeting basic financial needs like housing, food, and transportation. This is not some small niche issue anymore. Housing stress is shaping people's lives, choices, relationships, and futures.",
-    },
-    {
-      type: "p",
-      text: "One in three Canadians rents their primary home. But fewer renters are moving than they used to. Statistics Canada says the share of renters who lived at a different address one year earlier fell from 29.5% in 1996 to 19.9% in 2021. That looks like stability until you ask the obvious question: are people staying because they want to, or because moving has become financially reckless? For a lot of people, staying put is not freedom. It is survival.",
-    },
-    {
-      type: "h2",
-      text: "The numbers in your city",
-    },
-    {
-      type: "p",
-      text: "Even in the biggest cities, where people are told high rent is just \"normal,\" the numbers are hard to ignore. Rentals.ca says that as of January 2026, the average one-bedroom rent was about $1,945 in Ottawa, $2,183 in Toronto, and $2,362 in Vancouver. Statistics Canada's quarterly rent data also showed that in the first quarter of 2025, average asking rent for a two-bedroom apartment was $2,490 in Ottawa, $2,690 in Toronto, and $3,170 in Vancouver. These are not rare luxury prices anymore. These are ordinary market prices. That is exactly the problem.",
-    },
-    {
-      type: "h2",
-      text: "Why this matters for Fair Rent Canada",
-    },
-    {
-      type: "p",
-      text: "Not because a calculator is going to solve Canada's housing crisis on its own. It won't. But because renters have been expected to make some of the biggest financial decisions of their lives with terrible transparency. Landlords have listings. Platforms have data. Governments publish reports. But renters still end up asking the same question in the dark: am I getting ripped off?",
-    },
-    {
-      type: "p",
-      text: "Fair Rent Canada is built around that question. It brings together public data, market data, and renter-submitted information to give people a better read on whether a rent price actually looks fair. Not perfect. Not final. But better than guessing. Better than relying on one listing. Better than being told to just accept whatever the market throws at you.",
-    },
-    {
-      type: "pullquote",
-      text: "CMHC says new tenants are still paying more than sitting tenants. So when someone says 'rents are down,' the real response should be: down for who?",
-    },
-    {
-      type: "p",
-      text: "CMHC says affordable units are still in high demand even as vacancy rates rise, and that new tenants are still paying more than sitting tenants. So when someone says \"rents are down,\" the real response should be: down for who? Because for a lot of renters — especially anyone who needs to move right now — it still does not feel down at all.",
-    },
-    {
-      type: "p",
-      text: "If you have ever found out your neighbour pays hundreds less than you for a similar unit, you already understand why this matters. Check the calculator. Submit your rent. Share it with someone apartment hunting. Because the more renters compare notes, the harder it gets for this market to hide behind averages.",
-    },
+    { type: "p", text: "Yes, average asking rent in Canada has come down a bit. Rentals.ca says the national average asking rent fell to $2,030 in February 2026, marking 17 straight months of year-over-year declines. CMHC also says the purpose-built rental vacancy rate rose to 3.1% in 2025, up from 2.2% in 2024. On paper, that sounds like relief. In real life, it still feels brutal. Because lower than a peak does not mean fair." },
+    { type: "p", text: "In fact, part of the reason rents look 'better' is not because housing suddenly became affordable. It is because units got smaller. Rentals.ca reported that the average rental listing size in Canada dropped to 857 square feet in January 2026, down from 943 square feet two years earlier. At the same time, rent per square foot still rose 1.4% year over year. So no, renters are not suddenly getting a great deal. They are often just paying slightly less for less space." },
+    { type: "pullquote", text: "Two people can live in the same city, in similar units, with the same job and same income — and one can be paying massively more just because they had the bad luck of moving later." },
+    { type: "p", text: "And here is the part that should make people angry: the real punishment in Canada's rental market is not just renting. It is having to move. Statistics Canada found that across Canadian cities, recent renters in 2021 were paying 34% more than renters who had been in their home for five years or more. In Toronto, that gap was 52%. In Ottawa, it was 39%. In Vancouver, it was 31%." },
+    { type: "p", text: "Think about that for a second. Two people can live in the same city, in similar units, with the same job and same income, and one can be paying massively more just because they had the bad luck of moving later. That is not transparency. That is not fairness. That is a penalty for not already being inside the system." },
+    { type: "h2", text: "People feel this — even without policy language for it" },
+    { type: "p", text: "Statistics Canada reported that nearly half of Canadians — 45% — were very concerned about housing affordability in 2024. Among young adults aged 20 to 35, that number jumped to 59%. Half of young adults said rising prices affected their moving plans. About one-third of Canadians reported difficulty meeting basic financial needs like housing, food, and transportation." },
+    { type: "p", text: "One in three Canadians rents their primary home. But fewer renters are moving than they used to. Statistics Canada says the share of renters who lived at a different address one year earlier fell from 29.5% in 1996 to 19.9% in 2021. That looks like stability until you ask the obvious question: are people staying because they want to, or because moving has become financially reckless? For a lot of people, staying put is not freedom. It is survival." },
+    { type: "h2", text: "The numbers in your city" },
+    { type: "p", text: "Even in the biggest cities, where people are told high rent is just 'normal,' the numbers are hard to ignore. Rentals.ca says that as of January 2026, the average one-bedroom rent was about $1,945 in Ottawa, $2,183 in Toronto, and $2,362 in Vancouver. Statistics Canada's quarterly data showed that in Q1 2025, average asking rent for a two-bedroom was $2,490 in Ottawa, $2,690 in Toronto, and $3,170 in Vancouver. These are not rare luxury prices. These are ordinary market prices. That is exactly the problem." },
+    { type: "h2", text: "Why this matters" },
+    { type: "p", text: "Not because a calculator is going to solve Canada's housing crisis on its own. It won't. But because renters have been expected to make some of the biggest financial decisions of their lives with terrible transparency. Landlords have listings. Platforms have data. Governments publish reports. But renters still end up asking the same question in the dark: am I getting ripped off?" },
+    { type: "p", text: "Fair Rent Canada is built around that question. It brings together public data, market data, and renter-submitted information to give people a better read on whether a rent price actually looks fair. Not perfect. Not final. But better than guessing." },
+    { type: "pullquote", text: "When someone says 'rents are down,' the real response should be: down for who? Because for a lot of renters — especially anyone who needs to move right now — it still does not feel down at all." },
+    { type: "p", text: "If you have ever found out your neighbour pays hundreds less than you for a similar unit, you already understand why this matters. Check the calculator. Submit your rent. Share it with someone apartment hunting. Because the more renters compare notes, the harder it gets for this market to hide behind averages." },
   ],
   sources: [
-    "Statistics Canada, Housing challenges related to affordability, adequacy, condition and discrimination (2024)",
+    "Statistics Canada, Housing challenges related to affordability (2024)",
     "Statistics Canada, The Canadian rental conundrum (2025)",
     "Statistics Canada, Quarterly rent statistics (2025)",
     "CMHC, 2025 Rental Market Report",
     "Rentals.ca / Urbanation, National Rent Report (2026)",
-    "Rentals.ca city rent pages for Ottawa, Toronto, and Vancouver (January 2026)",
   ],
 };
 
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
 function detectCity(lat, lng) {
   let closest = null, minDist = Infinity;
-  for (const city of CITIES) {
-    const d = Math.sqrt(Math.pow(lat - city.coords.lat, 2) + Math.pow(lng - city.coords.lng, 2));
-    if (d < minDist) { minDist = d; closest = city; }
+  for (const c of CITIES) {
+    const d = Math.hypot(lat - c.coords.lat, lng - c.coords.lng);
+    if (d < minDist) { minDist = d; closest = c; }
   }
   return closest;
 }
 
-function useCountUp(target, duration = 900) {
-  const [val, setVal] = useState(0);
+function useCountUp(target, dur = 1200) {
+  const [val, set] = useState(0);
   const raf = useRef(null);
   const prev = useRef(0);
   useEffect(() => {
-    if (target === 0) return;
+    if (!target) return;
     const from = prev.current;
     prev.current = target;
-    let start = null;
-    const step = (ts) => {
-      if (!start) start = ts;
-      const p = Math.min((ts - start) / duration, 1);
-      setVal(Math.round(from + (target - from) * (1 - Math.pow(1 - p, 3))));
-      if (p < 1) raf.current = requestAnimationFrame(step);
+    let t0 = null;
+    const tick = ts => {
+      if (!t0) t0 = ts;
+      const p = Math.min((ts - t0) / dur, 1);
+      set(Math.round(from + (target - from) * (1 - Math.pow(1 - p, 4))));
+      if (p < 1) raf.current = requestAnimationFrame(tick);
     };
-    raf.current = requestAnimationFrame(step);
+    raf.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf.current);
   }, [target]);
   return val;
 }
 
-function BlogPost({ onClose }) {
+// ─── Blog article view ────────────────────────────────────────────────────────
+
+function Article({ onClose }) {
   useEffect(() => { window.scrollTo(0, 0); }, []);
   return (
-    <div style={{ minHeight: "100vh", background: "#fff" }}>
+    <div style={{ minHeight: "100vh", background: "#080c14", color: "#e2e8f0", fontFamily: "var(--font-body)" }}>
+
       {/* Back bar */}
-      <div style={{ borderBottom: "1px solid #f1f5f9", padding: "0 20px" }}>
-        <div style={{ maxWidth: 720, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 52 }}>
-          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 13, fontWeight: 600, color: "#64748b", fontFamily: "inherit", display: "flex", alignItems: "center", gap: 6, padding: 0 }}>
-            ← Fair Rent Canada
+      <div style={{ borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "0 24px" }}>
+        <div style={{ maxWidth: 720, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 56 }}>
+          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: "#64748b", fontFamily: "var(--font-mono)", fontSize: 12, display: "flex", alignItems: "center", gap: 8, padding: 0, letterSpacing: ".04em" }}>
+            ← FAIR RENT CANADA
           </button>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#94a3b8", letterSpacing: ".05em", textTransform: "uppercase" }}>
-            {BLOG_POST.date} · {BLOG_POST.readTime}
-          </div>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "#334155", letterSpacing: ".06em" }}>
+            {BLOG_POST.date} · {BLOG_POST.readTime} read
+          </span>
         </div>
       </div>
 
-      <article style={{ maxWidth: 680, margin: "0 auto", padding: "48px 20px 80px" }}>
+      <article style={{ maxWidth: 680, margin: "0 auto", padding: "56px 24px 96px" }}>
 
-        {/* Header */}
-        <div style={{ marginBottom: 40 }}>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: "#22c55e", letterSpacing: ".06em", textTransform: "uppercase", marginBottom: 16 }}>
-            Fair Rent Canada · Analysis
-          </div>
-          <h1 style={{ fontSize: "clamp(24px, 4vw, 36px)", fontWeight: 800, color: "#0f172a", letterSpacing: "-.03em", lineHeight: 1.2, marginBottom: 20 }}>
-            {BLOG_POST.title}
-          </h1>
-          <p style={{ fontSize: 18, color: "#475569", lineHeight: 1.75, fontStyle: "italic" }}>
-            {BLOG_POST.lede}
-          </p>
+        {/* Eyebrow */}
+        <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "#4ade80", letterSpacing: ".1em", textTransform: "uppercase", marginBottom: 20 }}>
+          Analysis · Fair Rent Canada
         </div>
 
-        {/* Stat cards */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 40 }}>
+        {/* Title */}
+        <h1 style={{ fontSize: "clamp(26px,4vw,38px)", fontWeight: 700, lineHeight: 1.18, letterSpacing: "-.03em", color: "#f1f5f9", marginBottom: 24, fontFamily: "var(--font-display)" }}>
+          {BLOG_POST.title}
+        </h1>
+
+        {/* Lede */}
+        <p style={{ fontSize: 18, color: "#94a3b8", lineHeight: 1.75, marginBottom: 40, fontStyle: "italic" }}>
+          {BLOG_POST.lede}
+        </p>
+
+        {/* Stat grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 48 }}>
           {BLOG_POST.stats.map(s => (
-            <div key={s.figure} style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 10, padding: "16px 18px" }}>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 28, fontWeight: 500, color: "#0f172a", lineHeight: 1, marginBottom: 6 }}>{s.figure}</div>
-              <div style={{ fontSize: 12, color: "#64748b", lineHeight: 1.55 }}>{s.label}</div>
+            <div key={s.figure} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 10, padding: "18px 20px" }}>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: 30, fontWeight: 500, color: "#f1f5f9", lineHeight: 1, marginBottom: 8 }}>{s.figure}</div>
+              <div style={{ fontSize: 12, color: "#64748b", lineHeight: 1.5 }}>{s.label}</div>
             </div>
           ))}
         </div>
 
         {/* Body */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           {BLOG_POST.body.map((block, i) => {
             if (block.type === "p") return (
-              <p key={i} style={{ fontSize: 16, color: "#334155", lineHeight: 1.8 }}>{block.text}</p>
+              <p key={i} style={{ fontSize: 16, color: "#94a3b8", lineHeight: 1.85 }}>{block.text}</p>
             );
             if (block.type === "h2") return (
-              <h2 key={i} style={{ fontSize: 20, fontWeight: 700, color: "#0f172a", letterSpacing: "-.02em", marginTop: 14 }}>{block.text}</h2>
+              <h2 key={i} style={{ fontSize: 22, fontWeight: 700, color: "#e2e8f0", letterSpacing: "-.02em", marginTop: 16, fontFamily: "var(--font-display)" }}>{block.text}</h2>
             );
             if (block.type === "pullquote") return (
-              <blockquote key={i} style={{ margin: 0, padding: "20px 24px", borderLeft: "3px solid #22c55e", background: "#f0fdf4", borderRadius: "0 8px 8px 0" }}>
-                <p style={{ fontSize: 17, color: "#166534", lineHeight: 1.7, fontStyle: "italic", fontWeight: 500 }}>{block.text}</p>
+              <blockquote key={i} style={{ margin: 0, padding: "20px 24px", borderLeft: "3px solid #4ade80", background: "rgba(74,222,128,0.05)", borderRadius: "0 8px 8px 0" }}>
+                <p style={{ fontSize: 17, color: "#cbd5e1", lineHeight: 1.7, fontStyle: "italic", fontWeight: 500 }}>{block.text}</p>
               </blockquote>
             );
             return null;
@@ -211,14 +193,16 @@ function BlogPost({ onClose }) {
         </div>
 
         {/* CTA */}
-        <div style={{ marginTop: 48, padding: "28px 26px", background: "#0f172a", borderRadius: 12 }}>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#475569", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 12 }}>Check your rent</div>
-          <p style={{ fontSize: 15, color: "#e2e8f0", lineHeight: 1.7, marginBottom: 20 }}>
-            Find out if your rent is above or below market — free, anonymous, takes 30 seconds.
+        <div style={{ marginTop: 56, padding: "32px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 14 }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "#4ade80", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 12 }}>Check your rent</div>
+          <p style={{ fontSize: 15, color: "#94a3b8", lineHeight: 1.7, marginBottom: 24 }}>
+            Find out where your rent sits — free, anonymous, takes 30 seconds.
           </p>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
             {CITIES.map(c => (
-              <a key={c.key} href={c.url} style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "9px 16px", background: c.accent, color: "#0f172a", borderRadius: 8, fontSize: 13, fontWeight: 700, textDecoration: "none" }}>
+              <a key={c.key} href={c.url} style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "10px 18px", background: c.accentBg, border: `1px solid ${c.accentBorder}`, color: c.accent, borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: "none", fontFamily: "var(--font-mono)", letterSpacing: ".03em", transition: "opacity .15s" }}
+                onMouseOver={e => e.currentTarget.style.opacity = ".75"}
+                onMouseOut={e => e.currentTarget.style.opacity = "1"}>
                 {c.name} →
               </a>
             ))}
@@ -226,21 +210,20 @@ function BlogPost({ onClose }) {
         </div>
 
         {/* Sources */}
-        <div style={{ marginTop: 40, paddingTop: 24, borderTop: "1px solid #f1f5f9" }}>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#94a3b8", textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 12 }}>Sources</div>
-          <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 6 }}>
-            {BLOG_POST.sources.map((s, i) => (
-              <li key={i} style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.6, paddingLeft: 14, position: "relative" }}>
-                <span style={{ position: "absolute", left: 0, color: "#cbd5e1" }}>·</span>
-                {s}
-              </li>
-            ))}
-          </ul>
+        <div style={{ marginTop: 48, paddingTop: 28, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "#334155", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 14 }}>Sources</div>
+          {BLOG_POST.sources.map((s, i) => (
+            <div key={i} style={{ fontSize: 12, color: "#334155", lineHeight: 1.6, paddingLeft: 14, position: "relative", marginBottom: 4 }}>
+              <span style={{ position: "absolute", left: 0, color: "#1e293b" }}>·</span>{s}
+            </div>
+          ))}
         </div>
       </article>
     </div>
   );
 }
+
+// ─── Main hub ─────────────────────────────────────────────────────────────────
 
 export default function App() {
   const [detected,    setDetected]    = useState(null);
@@ -249,21 +232,21 @@ export default function App() {
   const [countsReady, setCountsReady] = useState(false);
   const [showPost,    setShowPost]    = useState(false);
 
-  const totalCount = useCountUp(countsReady ? Object.values(counts).reduce((a, b) => a + b, 0) : 0);
+  const total      = countsReady ? Object.values(counts).reduce((a, b) => a + b, 0) : 0;
+  const displayNum = useCountUp(total);
 
   useEffect(() => {
     Promise.all(
-      CITIES.map(city =>
-        supabase
-          .from("rent_submissions")
+      CITIES.map(c =>
+        supabase.from("rent_submissions")
           .select("*", { count: "exact", head: true })
-          .eq("city", city.key)
-          .then(({ count }) => ({ key: city.key, count: count || 0 }))
+          .eq("city", c.key)
+          .then(({ count }) => ({ key: c.key, count: count || 0 }))
       )
-    ).then(results => {
-      const c = {};
-      results.forEach(r => { c[r.key] = r.count; });
-      setCounts(c);
+    ).then(res => {
+      const m = {};
+      res.forEach(r => { m[r.key] = r.count; });
+      setCounts(m);
       setCountsReady(true);
     });
   }, []);
@@ -277,226 +260,330 @@ export default function App() {
     );
   }, []);
 
+  const CSS = `
+    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+    :root {
+      --font-display: 'DM Serif Display', Georgia, serif;
+      --font-body: 'DM Sans', -apple-system, sans-serif;
+      --font-mono: 'DM Mono', 'Courier New', monospace;
+      --bg: #080c14;
+      --bg-card: #0d1220;
+      --bg-card-hover: #111827;
+      --border: rgba(255,255,255,0.07);
+      --border-hover: rgba(255,255,255,0.14);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #475569;
+      --green: #4ade80;
+    }
+
+    html, body, #root { margin: 0; padding: 0; width: 100%; background: var(--bg); }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    .city-card {
+      display: block; text-decoration: none;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 26px 22px;
+      transition: border-color .2s, background .2s, transform .2s;
+      position: relative; overflow: hidden;
+    }
+    .city-card:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-card-hover);
+      transform: translateY(-3px);
+    }
+
+    .blog-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color .2s, background .2s, transform .2s;
+    }
+    .blog-card:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+
+    .trust-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 100px;
+      font-family: var(--font-mono);
+      font-size: 11px; color: var(--text-muted);
+      letter-spacing: .04em;
+    }
+
+    .btn-city {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 12px; font-weight: 500;
+      text-decoration: none;
+      letter-spacing: .04em;
+      border: 1px solid;
+      transition: opacity .15s;
+    }
+    .btn-city:hover { opacity: .75; }
+
+    .fade-up { opacity: 0; transform: translateY(14px); animation: fu .5s ease forwards; }
+    @keyframes fu { to { opacity: 1; transform: none; } }
+    .d1{animation-delay:.05s} .d2{animation-delay:.12s} .d3{animation-delay:.19s}
+    .d4{animation-delay:.26s} .d5{animation-delay:.33s} .d6{animation-delay:.40s}
+
+    .live-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green);
+      animation: blink 2.2s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.4)} }
+
+    .noise-overlay {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: .022;
+    }
+
+    @media(max-width:680px){
+      .city-grid { grid-template-columns: 1fr !important; }
+      .stat-row  { grid-template-columns: 1fr 1fr !important; }
+      .step-row  { grid-template-columns: 1fr !important; }
+      .trust-row { grid-template-columns: 1fr !important; }
+    }
+  `;
+
   if (showPost) return (
-    <div style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif", color: "#0f172a" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
-        html, body, #root { width: 100%; margin: 0; padding: 0; }
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        @media (max-width: 580px) { article > div:nth-child(2) { grid-template-columns: 1fr !important; } }
-      `}</style>
-      <BlogPost onClose={() => { setShowPost(false); window.scrollTo(0, 0); }} />
-    </div>
+    <>
+      <style>{CSS}</style>
+      <Article onClose={() => { setShowPost(false); window.scrollTo(0, 0); }} />
+    </>
   );
 
   return (
-    <div style={{ minHeight: "100vh", background: "#f8fafc", fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif", color: "#0f172a" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
-        html, body, #root { width: 100%; margin: 0; padding: 0; }
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <>
+      <style>{CSS}</style>
+      <div className="noise-overlay" />
 
-        .city-card { display: block; text-decoration: none; background: #fff; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 22px 20px; transition: border-color .15s, box-shadow .15s, transform .15s; }
-        .city-card:hover { border-color: #cbd5e1; box-shadow: 0 4px 20px rgba(0,0,0,.07); transform: translateY(-2px); }
+      <div style={{ minHeight: "100vh", position: "relative", zIndex: 1 }}>
 
-        .blog-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; cursor: pointer; transition: box-shadow .15s, transform .15s; }
-        .blog-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.07); transform: translateY(-2px); }
-
-        .trust-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px 20px; }
-
-        .fade-up { opacity: 0; transform: translateY(10px); animation: fadeUp .45s ease forwards; }
-        @keyframes fadeUp { to { opacity: 1; transform: none; } }
-        .d1 { animation-delay: .04s; } .d2 { animation-delay: .1s; }
-        .d3 { animation-delay: .16s; } .d4 { animation-delay: .22s; }
-        .d5 { animation-delay: .28s; } .d6 { animation-delay: .34s; }
-
-        .pulse { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; animation: pulse 2s ease-in-out infinite; flex-shrink: 0; }
-        @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.5; transform:scale(1.3); } }
-
-        @media (max-width: 660px) {
-          .city-grid  { grid-template-columns: 1fr !important; }
-          .steps-grid { grid-template-columns: 1fr !important; }
-          .trust-grid { grid-template-columns: 1fr !important; }
-          .stat-grid  { grid-template-columns: 1fr 1fr !important; }
-        }
-      `}</style>
-
-      {/* Header */}
-      <header style={{ background: "#0f172a", borderBottom: "1px solid #1e293b" }}>
-        <div style={{ maxWidth: 840, margin: "0 auto", padding: "18px 20px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
-            <div style={{ width: 28, height: 28, background: "#22c55e", borderRadius: 7, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <span style={{ fontSize: 12, fontWeight: 800, color: "#0f172a" }}>FR</span>
+        {/* ── Header ─────────────────────────────────────────────────────── */}
+        <header style={{ borderBottom: "1px solid var(--border)", backdropFilter: "blur(12px)", position: "sticky", top: 0, zIndex: 100, background: "rgba(8,12,20,0.9)" }}>
+          <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 60 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <div style={{ width: 30, height: 30, background: "var(--green)", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <span style={{ fontSize: 12, fontWeight: 700, color: "#080c14", fontFamily: "var(--font-mono)", letterSpacing: "-.02em" }}>FR</span>
+              </div>
+              <span style={{ fontSize: 15, fontWeight: 600, color: "var(--text-primary)", fontFamily: "var(--font-body)", letterSpacing: "-.01em" }}>Fair Rent Canada</span>
             </div>
-            <span style={{ fontSize: 17, fontWeight: 700, color: "#fff", letterSpacing: "-.02em" }}>Fair Rent Canada</span>
+            {countsReady && (
+              <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
+                <div className="live-dot" />
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-muted)", letterSpacing: ".04em" }}>
+                  {displayNum.toLocaleString()} submissions
+                </span>
+              </div>
+            )}
           </div>
-          <p style={{ fontSize: 12, color: "#64748b", marginLeft: 38 }}>
-            Free rent calculator for Canadian renters — compare your rent to real market data
-          </p>
-        </div>
-      </header>
+        </header>
 
-      <main style={{ maxWidth: 840, margin: "0 auto", padding: "40px 20px 80px" }}>
+        <main style={{ maxWidth: 900, margin: "0 auto", padding: "64px 24px 100px" }}>
 
-        {/* Hero */}
-        <div className="fade-up d1" style={{ marginBottom: 36 }}>
-          <h1 style={{ fontSize: "clamp(26px,5vw,40px)", fontWeight: 800, color: "#0f172a", letterSpacing: "-.03em", lineHeight: 1.15, marginBottom: 14 }}>
-            Is your rent fair?
-          </h1>
-          <p style={{ fontSize: 16, color: "#475569", lineHeight: 1.75, maxWidth: 540, marginBottom: 18 }}>
-            Most renters have no idea if they're overpaying. Fair Rent Canada gives you free, anonymous access to neighbourhood-level rent benchmarks across Canada.
-          </p>
-          {countsReady && (
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "7px 14px", background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 100 }}>
-              <div className="pulse" />
-              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: "#475569" }}>
-                <strong style={{ color: "#0f172a" }}>{totalCount.toLocaleString()}</strong> anonymous rent submissions across Canada
+          {/* ── Hero ─────────────────────────────────────────────────────── */}
+          <div className="fade-up d1" style={{ marginBottom: 56 }}>
+
+            {/* Eyebrow */}
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 24 }}>
+              <div className="live-dot" />
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-muted)", letterSpacing: ".07em", textTransform: "uppercase" }}>
+                Canadian Rent Transparency Tool
               </span>
             </div>
-          )}
-        </div>
 
-        {/* Location banner */}
-        {!locating && detected && (
-          <div className="fade-up d2" style={{ background: "#f0fdf4", border: "1.5px solid #bbf7d0", borderRadius: 10, padding: "13px 18px", marginBottom: 24, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <div className="pulse" />
+            <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(38px,6vw,68px)", fontWeight: 400, color: "var(--text-primary)", lineHeight: 1.08, letterSpacing: "-.02em", marginBottom: 24, maxWidth: 700 }}>
+              Know if your rent<br />
+              <span style={{ color: "var(--green)", fontStyle: "italic" }}>is actually fair.</span>
+            </h1>
+
+            <p style={{ fontSize: 17, color: "var(--text-secondary)", lineHeight: 1.75, maxWidth: 520, marginBottom: 32 }}>
+              Free, anonymous rent benchmarks built from public housing data and renter submissions.
+              No account. No guessing.
+            </p>
+
+            {/* Trust pills */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {["CMHC data", "Rentals.ca data", "Anonymous submissions", "No account needed"].map(t => (
+                <span key={t} className="trust-pill">{t}</span>
+              ))}
+            </div>
+          </div>
+
+          {/* ── Location banner ──────────────────────────────────────────── */}
+          {!locating && detected && (
+            <div className="fade-up d2" style={{ background: detected.accentBg, border: `1px solid ${detected.accentBorder}`, borderRadius: 12, padding: "16px 20px", marginBottom: 32, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
               <div>
-                <div style={{ fontSize: 10, fontWeight: 600, color: "#16a34a", letterSpacing: ".05em", textTransform: "uppercase", marginBottom: 2 }}>Location detected</div>
-                <div style={{ fontSize: 14, color: "#0f172a" }}>Looks like you're near <strong>{detected.name}</strong></div>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: detected.accent, letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 4 }}>Location detected</div>
+                <div style={{ fontSize: 14, color: "var(--text-primary)" }}>Looks like you're near <strong>{detected.name}</strong></div>
               </div>
-            </div>
-            <a href={detected.url} style={{ display: "inline-flex", alignItems: "center", gap: 5, padding: "8px 16px", background: "#0f172a", color: "#fff", borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: "none" }}
-              onMouseOver={e => e.currentTarget.style.opacity = ".85"}
-              onMouseOut={e => e.currentTarget.style.opacity = "1"}>
-              Open {detected.name} →
-            </a>
-          </div>
-        )}
-
-        {/* City cards */}
-        <div className="city-grid fade-up d3" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 14, marginBottom: 48 }}>
-          {CITIES.map(city => {
-            const isDetected = detected?.key === city.key;
-            return (
-              <a key={city.key} href={city.url} className="city-card" style={{ borderColor: isDetected ? city.accent + "55" : "#e2e8f0" }}>
-                <div style={{ height: 3, background: city.accent, borderRadius: 3, marginBottom: 16 }} />
-                {isDetected && (
-                  <div style={{ display: "inline-flex", alignItems: "center", gap: 5, marginBottom: 9, padding: "3px 8px", background: city.accent + "18", borderRadius: 100, fontSize: 9, fontWeight: 600, color: city.accentDim, fontFamily: "'JetBrains Mono', monospace", letterSpacing: ".07em", textTransform: "uppercase" }}>
-                    <div style={{ width: 5, height: 5, borderRadius: "50%", background: city.accent }} /> Your city
-                  </div>
-                )}
-                <div style={{ fontSize: 21, fontWeight: 800, color: "#0f172a", letterSpacing: "-.02em", marginBottom: 2 }}>{city.name}</div>
-                <div style={{ fontSize: 10, fontWeight: 600, color: "#94a3b8", marginBottom: 12, letterSpacing: ".03em" }}>{city.province}</div>
-                <div style={{ padding: "9px 11px", background: "#f8fafc", borderRadius: 7, marginBottom: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#94a3b8" }}>{city.unitLabel}</span>
-                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14, fontWeight: 500, color: "#0f172a" }}>{city.avgRent}</span>
-                </div>
-                <div style={{ fontSize: 12, color: "#64748b", lineHeight: 1.5, marginBottom: 16 }}>{city.desc}</div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 12, borderTop: "1px solid #f1f5f9" }}>
-                  <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#94a3b8" }}>
-                    {countsReady ? <><strong style={{ color: "#475569" }}>{counts[city.key].toLocaleString()}</strong> submissions</> : "—"}
-                  </div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: city.accentDim }}>Check rent →</div>
-                </div>
+              <a href={detected.url} style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "9px 18px", background: detected.accentBg, border: `1px solid ${detected.accentBorder}`, color: detected.accent, borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: "none", fontFamily: "var(--font-mono)", letterSpacing: ".03em", transition: "opacity .15s" }}
+            onMouseOver={e => e.currentTarget.style.opacity = ".75"}
+            onMouseOut={e => e.currentTarget.style.opacity = "1"}>
+                Check {detected.name} →
               </a>
-            );
-          })}
-        </div>
+            </div>
+          )}
 
-        {/* Featured blog post */}
-        <div className="fade-up d4" style={{ marginBottom: 48 }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#94a3b8", textTransform: "uppercase", letterSpacing: ".08em" }}>From the blog</div>
+          {/* ── City cards ───────────────────────────────────────────────── */}
+          <div className="city-grid fade-up d3" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 16, marginBottom: 56 }}>
+            {CITIES.map(c => {
+              const isDetected = detected?.key === c.key;
+              return (
+                <a key={c.key} href={c.url} className="city-card" style={{ borderColor: isDetected ? c.accentBorder : "var(--border)" }}>
+
+                  {/* Top accent line */}
+                  <div style={{ height: 2, background: c.accent, borderRadius: 2, marginBottom: 22, opacity: isDetected ? 1 : 0.4 }} />
+
+                  {/* Detected badge */}
+                  {isDetected && (
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: 5, marginBottom: 10, padding: "3px 9px", background: c.accentBg, border: `1px solid ${c.accentBorder}`, borderRadius: 100, fontFamily: "var(--font-mono)", fontSize: 9, color: c.accent, letterSpacing: ".08em", textTransform: "uppercase" }}>
+                      <div style={{ width: 4, height: 4, borderRadius: "50%", background: c.accent }} /> Near you
+                    </div>
+                  )}
+
+                  {/* City name */}
+                  <div style={{ fontSize: 22, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-.02em", marginBottom: 2, fontFamily: "var(--font-body)" }}>{c.name}</div>
+                  <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-muted)", marginBottom: 18, letterSpacing: ".04em" }}>{c.province}</div>
+
+                  {/* Rent range */}
+                  <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 8, padding: "12px 14px", marginBottom: 16 }}>
+                    <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-muted)", letterSpacing: ".06em", textTransform: "uppercase", marginBottom: 6 }}>{c.unitLabel}</div>
+                    <div style={{ fontFamily: "var(--font-mono)", fontSize: 18, fontWeight: 500, color: "var(--text-primary)", letterSpacing: "-.01em" }}>{c.avgRent}</div>
+                    <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-muted)", marginTop: 3 }}>range {c.rentRange}</div>
+                  </div>
+
+                  {/* Meta */}
+                  <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 16, lineHeight: 1.5 }}>
+                    {c.hoods} neighbourhoods · {c.tag}
+                  </div>
+
+                  {/* Footer */}
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 14, borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+                    <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-muted)" }}>
+                      {countsReady ? <><strong style={{ color: "#64748b" }}>{counts[c.key].toLocaleString()}</strong> submissions</> : "—"}
+                    </div>
+                    <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 500, color: c.accent, letterSpacing: ".03em" }}>Check →</div>
+                  </div>
+                </a>
+              );
+            })}
           </div>
 
-          <div className="blog-card" onClick={() => setShowPost(true)}>
-            {/* Top accent */}
-            <div style={{ height: 3, background: "linear-gradient(to right, #22c55e, #3b82f6, #06b6d4)" }} />
+          {/* ── How the estimate works ───────────────────────────────────── */}
+          <div className="fade-up d4" style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 14, padding: "32px 28px", marginBottom: 20 }}>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 24 }}>How the estimate is built</div>
+            <div className="step-row" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 28 }}>
+              {[
+                { n: "01", head: "Public baseline", body: "We start with CMHC Rental Market Survey data and Rentals.ca monthly reports, adjusted for neighbourhood and unit type." },
+                { n: "02", head: "Community layer", body: "Anonymous renter submissions from your exact neighbourhood are blended in as they accumulate. More submissions means higher confidence." },
+                { n: "03", head: "Confidence score", body: "The result shows a rent range, not a single number. The confidence level tells you how much data sits behind the estimate." },
+              ].map(({ n, head, body }) => (
+                <div key={n}>
+                  <div style={{ fontFamily: "var(--font-mono)", fontSize: 28, fontWeight: 500, color: "rgba(255,255,255,0.06)", lineHeight: 1, marginBottom: 14 }}>{n}</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)", marginBottom: 8, letterSpacing: "-.01em" }}>{head}</div>
+                  <div style={{ fontSize: 12, color: "var(--text-muted)", lineHeight: 1.7 }}>{body}</div>
+                </div>
+              ))}
+            </div>
 
-            <div style={{ padding: "26px 26px 24px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#94a3b8", textTransform: "uppercase", letterSpacing: ".06em" }}>{BLOG_POST.date}</span>
-                <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#e2e8f0" }} />
-                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#94a3b8", textTransform: "uppercase", letterSpacing: ".06em" }}>{BLOG_POST.readTime}</span>
-              </div>
-
-              <h2 style={{ fontSize: "clamp(18px,3vw,22px)", fontWeight: 800, color: "#0f172a", letterSpacing: "-.02em", lineHeight: 1.3, marginBottom: 12 }}>
-                {BLOG_POST.title}
-              </h2>
-              <p style={{ fontSize: 14, color: "#64748b", lineHeight: 1.7, marginBottom: 20 }}>
-                {BLOG_POST.lede}
+            {/* Methodology note */}
+            <div style={{ marginTop: 28, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+              <p style={{ fontSize: 12, color: "var(--text-muted)", lineHeight: 1.7 }}>
+                <strong style={{ color: "#475569" }}>Honest about uncertainty:</strong> rent benchmarks are estimates, not facts. Building age, condition, included utilities, and parking all affect fair value. This tool gives you a starting point for a more informed conversation — not a definitive answer.
               </p>
-
-              {/* Mini stat row */}
-              <div className="stat-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 10, marginBottom: 22 }}>
-                {BLOG_POST.stats.map(s => (
-                  <div key={s.figure} style={{ background: "#f8fafc", borderRadius: 8, padding: "12px 10px" }}>
-                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 20, fontWeight: 500, color: "#0f172a", lineHeight: 1, marginBottom: 4 }}>{s.figure}</div>
-                    <div style={{ fontSize: 10, color: "#94a3b8", lineHeight: 1.4 }}>{s.label.split("(")[0].trim()}</div>
-                  </div>
-                ))}
-              </div>
-
-              <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 600, color: "#22c55e" }}>
-                Read the full piece →
-              </div>
             </div>
           </div>
-        </div>
 
-        {/* How it works */}
-        <div className="fade-up d5" style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 12, padding: "28px 24px", marginBottom: 16 }}>
-          <h2 style={{ fontSize: 14, fontWeight: 700, color: "#0f172a", marginBottom: 22, letterSpacing: "-.01em" }}>How it works</h2>
-          <div className="steps-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24 }}>
+          {/* ── Trust signals ────────────────────────────────────────────── */}
+          <div className="trust-row fade-up d5" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 20 }}>
             {[
-              { n: "01", head: "Enter your details", body: "Select your neighbourhood, unit type, rent, and move-in year. No name or email." },
-              { n: "02", head: "Get your benchmark", body: "We blend CMHC data with anonymous community submissions from your exact neighbourhood." },
-              { n: "03", head: "Know your position", body: "See if you're overpaying, at market, or getting a deal — plus your province's tenant rights." },
-            ].map(({ n, head, body }) => (
-              <div key={n}>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 28, fontWeight: 500, color: "#e2e8f0", lineHeight: 1, marginBottom: 10 }}>{n}</div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: "#0f172a", marginBottom: 5 }}>{head}</div>
-                <div style={{ fontSize: 12, color: "#64748b", lineHeight: 1.65 }}>{body}</div>
+              { head: "Fully anonymous", body: "No account, no email, no IP stored. Your submission is a number added to a pool — nothing more." },
+              { head: "No fake precision", body: "Results show a range and a confidence level, not a single invented number. We tell you what we know and what we don't." },
+              { head: "Sourced, not made up", body: "Benchmarks come from CMHC's annual survey and Rentals.ca's monthly national report. Sources are listed with every result." },
+              { head: "Your rights, included", body: "Every result links to province-specific tenant rights and rent guideline information relevant to your situation." },
+            ].map(({ head, body }) => (
+              <div key={head} style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 12, padding: "20px 22px" }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)", marginBottom: 7, letterSpacing: "-.01em" }}>{head}</div>
+                <div style={{ fontSize: 12, color: "var(--text-muted)", lineHeight: 1.7 }}>{body}</div>
               </div>
             ))}
           </div>
-        </div>
 
-        {/* Trust signals */}
-        <div className="trust-grid fade-up d6" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
-          {[
-            { icon: "🔒", head: "Fully anonymous", body: "No account, no email. Your submission is just a number in a pool." },
-            { icon: "📊", head: "Real market data", body: "CMHC Rental Market Survey and Rentals.ca monthly reports." },
-            { icon: "🧠", head: "Gets smarter", body: "Blends CMHC data with community submissions as they grow." },
-            { icon: "⚖️", head: "Tenant-focused", body: "Province-specific rent guideline context with every result." },
-          ].map(({ icon, head, body }) => (
-            <div key={head} className="trust-card">
-              <div style={{ fontSize: 18, marginBottom: 7 }}>{icon}</div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#0f172a", marginBottom: 4 }}>{head}</div>
-              <div style={{ fontSize: 12, color: "#64748b", lineHeight: 1.6 }}>{body}</div>
+          {/* ── Featured blog post ───────────────────────────────────────── */}
+          <div className="fade-up d6" style={{ marginBottom: 20 }}>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 14 }}>From the blog</div>
+
+            <div className="blog-card" onClick={() => setShowPost(true)} role="button" tabIndex={0} onKeyDown={e => e.key === "Enter" && setShowPost(true)}>
+              <div style={{ height: 2, background: "linear-gradient(to right, #4ade80, #60a5fa, #22d3ee)" }} />
+              <div style={{ padding: "28px 28px 26px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-muted)", letterSpacing: ".06em" }}>{BLOG_POST.date}</span>
+                  <span style={{ width: 3, height: 3, borderRadius: "50%", background: "var(--border-hover)", display: "inline-block" }} />
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-muted)", letterSpacing: ".06em" }}>{BLOG_POST.readTime} read</span>
+                </div>
+
+                <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(18px,2.5vw,24px)", fontWeight: 400, color: "var(--text-primary)", lineHeight: 1.3, marginBottom: 12 }}>
+                  {BLOG_POST.title}
+                </h2>
+                <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.7, marginBottom: 24 }}>
+                  {BLOG_POST.lede}
+                </p>
+
+                {/* Mini stats */}
+                <div className="stat-row" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 10, marginBottom: 24 }}>
+                  {BLOG_POST.stats.map(s => (
+                    <div key={s.figure} style={{ background: "rgba(255,255,255,0.03)", borderRadius: 8, padding: "12px 10px" }}>
+                      <div style={{ fontFamily: "var(--font-mono)", fontSize: 20, fontWeight: 500, color: "var(--text-primary)", lineHeight: 1, marginBottom: 5 }}>{s.figure}</div>
+                      <div style={{ fontSize: 10, color: "var(--text-muted)", lineHeight: 1.4 }}>{s.label.split("(")[0].trim()}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "#4ade80", letterSpacing: ".04em" }}>
+                  Read the full piece →
+                </div>
+              </div>
             </div>
-          ))}
-        </div>
+          </div>
 
-        {/* Mission */}
-        <div style={{ background: "#0f172a", borderRadius: 12, padding: "28px 24px" }}>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: "#475569", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 12 }}>Why this exists</div>
-          <p style={{ fontSize: 15, color: "#e2e8f0", lineHeight: 1.8, marginBottom: 12, maxWidth: 560 }}>
-            Rent is the largest expense for most Canadians — but it's nearly impossible to know if what you're paying is actually fair. Landlords have data. Tenants don't.
+          {/* ── Mission ──────────────────────────────────────────────────── */}
+          <div style={{ background: "rgba(74,222,128,0.04)", border: "1px solid rgba(74,222,128,0.12)", borderRadius: 14, padding: "32px 28px" }}>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "#4ade80", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 16 }}>Why this exists</div>
+            <p style={{ fontSize: 16, color: "var(--text-secondary)", lineHeight: 1.85, maxWidth: 560, marginBottom: 16 }}>
+              Rent is the largest expense for most Canadians — but it's nearly impossible to know if what you're paying is actually fair. Landlords have listings. Platforms have data. Governments publish reports. Renters have almost none of it.
+            </p>
+            <p style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.8, maxWidth: 540 }}>
+              Fair Rent Canada gives renters access to the same neighbourhood-level benchmarks the industry already uses. Every anonymous submission improves the estimate for the next renter.
+            </p>
+          </div>
+
+        </main>
+
+        {/* ── Footer ───────────────────────────────────────────────────────── */}
+        <footer style={{ borderTop: "1px solid var(--border)", padding: "24px", textAlign: "center" }}>
+          <p style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "#1e293b", letterSpacing: ".06em" }}>
+            Anonymous · No personal data stored · Not legal or financial advice · © {new Date().getFullYear()} Fair Rent Canada
           </p>
-          <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.8, maxWidth: 560 }}>
-            Fair Rent Canada is free and anonymous. Every submission makes the benchmark more accurate for the next renter.
-          </p>
-        </div>
+        </footer>
 
-      </main>
-
-      <footer style={{ borderTop: "1px solid #e2e8f0", padding: "18px 20px", textAlign: "center" }}>
-        <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#94a3b8", letterSpacing: ".04em" }}>
-          Anonymous · No personal data stored · Not legal or financial advice · © {new Date().getFullYear()} Fair Rent Canada
-        </p>
-      </footer>
-    </div>
+      </div>
+    </>
   );
 }
