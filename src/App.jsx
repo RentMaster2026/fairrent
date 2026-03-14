@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import MethodologyPage from "./MethodologyPage";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
@@ -161,6 +162,7 @@ export default function App(){
   const[counts,setCounts]=useState({ottawa:0,toronto:0,vancouver:0});
   const[countsReady,setCountsReady]=useState(false);
   const[showPost,setShowPost]=useState(false);
+  const [showMethodology, setShowMethodology] = useState(false);
 
   const total=countsReady?Object.values(counts).reduce((a,b)=>a+b,0):0;
   const displayNum=useCountUp(total);
@@ -178,6 +180,9 @@ export default function App(){
     );
   },[]);
 
+  if (showMethodology) return (
+  <MethodologyPage onBack={() => { setShowMethodology(false); window.scrollTo(0, 0); }} />
+);
   if(showPost) return(<><style>{CSS}</style><Article onClose={()=>{setShowPost(false);window.scrollTo(0,0);}}/></>);
 
   return(
@@ -337,7 +342,15 @@ export default function App(){
 
       <footer style={{borderTop:"1px solid var(--border)",padding:"20px",textAlign:"center",background:"var(--bg)"}}>
         <p style={{fontFamily:"var(--mono)",fontSize:10,color:"var(--t3)",letterSpacing:".04em"}}>
-          Anonymous · No personal data stored · Not legal or financial advice · {new Date().getFullYear()} Fair Rent Canada
+          <footer style={{ borderTop: "1px solid var(--border)", padding: "20px", textAlign: "center", background: "var(--bg)" }}>
+  <p style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--t3)", letterSpacing: ".04em" }}>
+    Anonymous · No personal data stored · Not legal or financial advice · {new Date().getFullYear()} Fair Rent Canada
+    {" · "}
+    <button onClick={() => { setShowMethodology(true); window.scrollTo(0, 0); }} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--mono)", fontSize: 10, color: "var(--t3)", textDecoration: "underline", padding: 0 }}>
+      Methodology
+    </button>
+  </p>
+</footer> {new Date().getFullYear()} Fair Rent Canada
         </p>
       </footer>
 
