@@ -1,6 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import MethodologyPage from "./MethodologyPage";
-import { AboutPage, PrivacyPage, TermsPage, FaqPage, ContactPage } from "./TrustPages";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
@@ -83,7 +81,7 @@ const CSS = `
   .city-card:hover{border-color:var(--border-mid);box-shadow:var(--sh-hover);transform:translateY(-2px);}
   .blog-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;cursor:pointer;box-shadow:var(--sh);transition:border-color .18s,box-shadow .18s,transform .18s;}
   .blog-card:hover{border-color:var(--border-mid);box-shadow:var(--sh-hover);transform:translateY(-2px);}
-  .trust-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-md);padding:20px;box-shadow:var(--sh);}
+  .trust-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-md);padding:20px;}
   .pill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:var(--bg-card);border:1px solid var(--border);border-radius:100px;font-family:var(--mono);font-size:11px;color:var(--t2);letter-spacing:.03em;}
   .live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;animation:pulse 2.4s ease-in-out infinite;}
   @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.5)}}
@@ -98,7 +96,9 @@ const CSS = `
   .ab blockquote p{font-size:17px;color:#166534;font-style:italic;font-weight:500;line-height:1.65;}
   @media(max-width:700px){.cgrid{grid-template-columns:1fr!important}.sgrid{grid-template-columns:1fr!important}.tgrid{grid-template-columns:1fr!important}.stgrid{grid-template-columns:1fr 1fr!important}}
   @media(max-width:480px){.stgrid{grid-template-columns:1fr!important}}
-`;
+
+  @media(prefers-reduced-motion:reduce){.fade-up{animation:none!important;opacity:1!important;transform:none!important;}*{transition-duration:.01ms!important;}}
+  .btn-primary:focus-visible,.btn-ghost:focus-visible,.opt-btn:focus-visible{outline:2px solid #16a34a;outline-offset:2px;}`;
 
 function Article({onClose}){
   useEffect(()=>{window.scrollTo(0,0);},[]);
@@ -163,12 +163,6 @@ export default function App(){
   const[counts,setCounts]=useState({ottawa:0,toronto:0,vancouver:0});
   const[countsReady,setCountsReady]=useState(false);
   const[showPost,setShowPost]=useState(false);
-  const [showMethodology, setShowMethodology] = useState(false);
-  const [showAbout,   setShowAbout]   = useState(false);
-  const [showPrivacy, setShowPrivacy] = useState(false);
-  const [showTerms,   setShowTerms]   = useState(false);
-  const [showFaq,     setShowFaq]     = useState(false);
-  const [showContact, setShowContact] = useState(false);
 
   const total=countsReady?Object.values(counts).reduce((a,b)=>a+b,0):0;
   const displayNum=useCountUp(total);
@@ -185,14 +179,7 @@ export default function App(){
       ()=>setLocating(false),{timeout:4000}
     );
   },[]);
-  if (showAbout)   return <AboutPage   onBack={() => { setShowAbout(false);   window.scrollTo(0,0); }} />;
-  if (showPrivacy) return <PrivacyPage onBack={() => { setShowPrivacy(false); window.scrollTo(0,0); }} />;
-  if (showTerms)   return <TermsPage   onBack={() => { setShowTerms(false);   window.scrollTo(0,0); }} />;
-  if (showFaq)     return <FaqPage     onBack={() => { setShowFaq(false);     window.scrollTo(0,0); }} />;
-  if (showContact) return <ContactPage onBack={() => { setShowContact(false); window.scrollTo(0,0); }} />;
-  if (showMethodology) return (
-  <MethodologyPage onBack={() => { setShowMethodology(false); window.scrollTo(0, 0); }} />
-);
+
   if(showPost) return(<><style>{CSS}</style><Article onClose={()=>{setShowPost(false);window.scrollTo(0,0);}}/></>);
 
   return(
@@ -210,7 +197,7 @@ export default function App(){
           {countsReady&&(
             <div style={{display:"flex",alignItems:"center",gap:7}}>
               <div className="live-dot"/>
-              <span style={{fontFamily:"var(--mono)",fontSize:11,color:"rgba(255,255,255,.35)",letterSpacing:".04em"}}>{displayNum.toLocaleString()} submissions</span>
+              <span style={{fontFamily:"var(--mono)",aria-live:"polite",fontSize:11,color:"rgba(255,255,255,.35)",letterSpacing:".04em"}}>{displayNum.toLocaleString()} submissions</span>
             </div>
           )}
         </div>
@@ -350,25 +337,11 @@ export default function App(){
         </div>
       </div>
 
-<footer style={{ borderTop: "1px solid var(--border)", padding: "20px 20px 28px", background: "var(--bg)" }}>
-  <div style={{ maxWidth: "var(--max-hub)", margin: "0 auto", display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "6px 16px", marginBottom: 10 }}>
-    {[
-      { label: "About",       action: () => { setShowAbout(true);       window.scrollTo(0,0); } },
-      { label: "FAQ",         action: () => { setShowFaq(true);         window.scrollTo(0,0); } },
-      { label: "Methodology", action: () => { setShowMethodology(true); window.scrollTo(0,0); } },
-      { label: "Privacy",     action: () => { setShowPrivacy(true);     window.scrollTo(0,0); } },
-      { label: "Terms",       action: () => { setShowTerms(true);       window.scrollTo(0,0); } },
-      { label: "Contact",     action: () => { setShowContact(true);     window.scrollTo(0,0); } },
-    ].map(({ label, action }) => (
-      <button key={label} onClick={action} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--mono)", fontSize: 11, color: "var(--t3)", letterSpacing: ".05em", textTransform: "uppercase", padding: "2px 0", textDecoration: "underline", textUnderlineOffset: 3 }}>
-        {label}
-      </button>
-    ))}
-  </div>
-  <p style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--t3)", letterSpacing: ".04em", textAlign: "center" }}>
-    Anonymous · No personal data stored · Not legal or financial advice · {new Date().getFullYear()} Fair Rent Canada
-  </p>
-  </footer>
+      <footer style={{borderTop:"1px solid var(--border)",padding:"20px",textAlign:"center",background:"var(--bg)"}}>
+        <p style={{fontFamily:"var(--mono)",fontSize:10,color:"var(--t3)",letterSpacing:".04em"}}>
+          Anonymous · No personal data stored · Not legal or financial advice · {new Date().getFullYear()} Fair Rent Canada
+        </p>
+      </footer>
 
     </div>
     </>
