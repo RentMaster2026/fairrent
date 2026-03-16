@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import MethodologyPage from "./MethodologyPage";
+import { AboutPage, PrivacyPage, TermsPage, FaqPage, ContactPage } from "./TrustPages";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
@@ -163,6 +164,11 @@ export default function App(){
   const[countsReady,setCountsReady]=useState(false);
   const[showPost,setShowPost]=useState(false);
   const [showMethodology, setShowMethodology] = useState(false);
+  const [showAbout,   setShowAbout]   = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
+  const [showTerms,   setShowTerms]   = useState(false);
+  const [showFaq,     setShowFaq]     = useState(false);
+  const [showContact, setShowContact] = useState(false);
 
   const total=countsReady?Object.values(counts).reduce((a,b)=>a+b,0):0;
   const displayNum=useCountUp(total);
@@ -179,7 +185,11 @@ export default function App(){
       ()=>setLocating(false),{timeout:4000}
     );
   },[]);
-
+  if (showAbout)   return <AboutPage   onBack={() => { setShowAbout(false);   window.scrollTo(0,0); }} />;
+  if (showPrivacy) return <PrivacyPage onBack={() => { setShowPrivacy(false); window.scrollTo(0,0); }} />;
+  if (showTerms)   return <TermsPage   onBack={() => { setShowTerms(false);   window.scrollTo(0,0); }} />;
+  if (showFaq)     return <FaqPage     onBack={() => { setShowFaq(false);     window.scrollTo(0,0); }} />;
+  if (showContact) return <ContactPage onBack={() => { setShowContact(false); window.scrollTo(0,0); }} />;
   if (showMethodology) return (
   <MethodologyPage onBack={() => { setShowMethodology(false); window.scrollTo(0, 0); }} />
 );
@@ -340,19 +350,25 @@ export default function App(){
         </div>
       </div>
 
-      <footer style={{borderTop:"1px solid var(--border)",padding:"20px",textAlign:"center",background:"var(--bg)"}}>
-        <p style={{fontFamily:"var(--mono)",fontSize:10,color:"var(--t3)",letterSpacing:".04em"}}>
-          <footer style={{ borderTop: "1px solid var(--border)", padding: "20px", textAlign: "center", background: "var(--bg)" }}>
-  <p style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--t3)", letterSpacing: ".04em" }}>
+<footer style={{ borderTop: "1px solid var(--border)", padding: "20px 20px 28px", background: "var(--bg)" }}>
+  <div style={{ maxWidth: "var(--max-hub)", margin: "0 auto", display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "6px 16px", marginBottom: 10 }}>
+    {[
+      { label: "About",       action: () => { setShowAbout(true);       window.scrollTo(0,0); } },
+      { label: "FAQ",         action: () => { setShowFaq(true);         window.scrollTo(0,0); } },
+      { label: "Methodology", action: () => { setShowMethodology(true); window.scrollTo(0,0); } },
+      { label: "Privacy",     action: () => { setShowPrivacy(true);     window.scrollTo(0,0); } },
+      { label: "Terms",       action: () => { setShowTerms(true);       window.scrollTo(0,0); } },
+      { label: "Contact",     action: () => { setShowContact(true);     window.scrollTo(0,0); } },
+    ].map(({ label, action }) => (
+      <button key={label} onClick={action} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--mono)", fontSize: 11, color: "var(--t3)", letterSpacing: ".05em", textTransform: "uppercase", padding: "2px 0", textDecoration: "underline", textUnderlineOffset: 3 }}>
+        {label}
+      </button>
+    ))}
+  </div>
+  <p style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--t3)", letterSpacing: ".04em", textAlign: "center" }}>
     Anonymous · No personal data stored · Not legal or financial advice · {new Date().getFullYear()} Fair Rent Canada
-    {" · "}
-    <button onClick={() => { setShowMethodology(true); window.scrollTo(0, 0); }} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--mono)", fontSize: 10, color: "var(--t3)", textDecoration: "underline", padding: 0 }}>
-      Methodology
-    </button>
   </p>
-</footer> {new Date().getFullYear()} Fair Rent Canada
-        </p>
-      </footer>
+  </footer>
 
     </div>
     </>
