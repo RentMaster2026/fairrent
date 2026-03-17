@@ -40,6 +40,11 @@ const CSS = `
   .source-pill { padding:3px 10px; background:var(--bg-card); border:1px solid var(--border); border-radius:100px; font-family:var(--mono); font-size:9px; color:var(--t3); letter-spacing:.04em; }
   .fade-up { opacity:0; transform:translateY(10px); animation:fu .45s ease forwards; }
   @keyframes fu { to { opacity:1; transform:none; } }
+  .wrap{max-width:1200px;margin:0 auto;padding-left:20px;padding-right:20px;}
+  .hub-grid{display:grid;grid-template-columns:1fr 380px;gap:48px;align-items:start;}
+  @media(min-width:861px){.wrap{padding-left:32px;padding-right:32px;}}
+  @media(max-width:860px){.hub-grid{grid-template-columns:1fr;}}
+  @media(max-width:600px){.city-cards{grid-template-columns:1fr!important;}}
   .d1{animation-delay:.04s} .d2{animation-delay:.10s} .d3{animation-delay:.16s} .d4{animation-delay:.22s} .d5{animation-delay:.28s}
   @media(prefers-reduced-motion:reduce){ .fade-up{animation:none!important;opacity:1!important;transform:none!important;} }
 `;
@@ -117,7 +122,7 @@ export default function App() {
 
         {/* NAV */}
         <header style={{ background:"var(--nav)", borderBottom:"1px solid rgba(255,255,255,.06)", position:"sticky", top:0, zIndex:100 }}>
-          <div style={{ maxWidth:1200, margin:"0 auto", padding:"0 32px", display:"flex", alignItems:"center", justifyContent:"space-between", height:56 }}>
+          <div className="wrap" style={{ display:"flex", alignItems:"center", justifyContent:"space-between", height:56 }}>
             <div style={{ display:"flex", alignItems:"center", gap:10 }}>
               <div style={{ width:28, height:28, background:"#16a34a", borderRadius:7, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
                 <span style={{ fontFamily:"var(--mono)", fontSize:11, fontWeight:500, color:"#fff" }}>FR</span>
@@ -134,7 +139,7 @@ export default function App() {
 
         {/* HERO */}
         <div style={{ background:"#fff", borderBottom:"1px solid var(--border)" }}>
-          <div style={{ maxWidth:1200, margin:"0 auto", padding:"72px 32px 64px" }}>
+          <div className="wrap" style={{ paddingTop:"clamp(36px,6vw,72px)", paddingBottom:"clamp(32px,5vw,64px)" }}>
             <div style={{ maxWidth:680 }}>
               <div className="fade-up d1" style={{ fontFamily:"var(--mono)", fontSize:11, color:"#16a34a", letterSpacing:".1em", textTransform:"uppercase", marginBottom:20 }}>
                 Canadian Rent Analysis Tool
@@ -157,7 +162,7 @@ export default function App() {
               <style>{`@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}`}</style>
 
               {/* City cards */}
-              <div className="fade-up d3" style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:16 }}>
+              <div className="fade-up d3 city-cards" style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:16 }}>
                 {CITIES.map(c => (
                   <a key={c.key} className="city-card" href={c.url}>
                     <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:4 }}>
@@ -180,8 +185,8 @@ export default function App() {
         </div>
 
         {/* TRUST BAR */}
-        <div style={{ background:"var(--bg-card)", borderBottom:"1px solid var(--border)", padding:"14px 32px" }}>
-          <div style={{ maxWidth:1200, margin:"0 auto", display:"flex", flexWrap:"wrap", gap:"12px 32px", alignItems:"center" }}>
+        <div style={{ background:"var(--bg-card)", borderBottom:"1px solid var(--border)", padding:"14px 0" }}>
+          <div className="wrap" style={{ display:"flex", flexWrap:"wrap", gap:"12px 24px", alignItems:"center" }}>
             {[
               "Based on Canadian housing data",
               "Updated with real tenant submissions",
@@ -200,7 +205,7 @@ export default function App() {
         </div>
 
         {/* MAIN CONTENT — two columns on desktop */}
-        <div style={{ maxWidth:1200, margin:"0 auto", padding:"64px 32px 80px", display:"grid", gridTemplateColumns:"1fr 380px", gap:48, alignItems:"start" }}>
+        <div className="wrap hub-grid" style={{ paddingTop:"clamp(32px,5vw,64px)", paddingBottom:80 }}>
 
           {/* LEFT — How it works + Why it matters */}
           <div style={{ display:"flex", flexDirection:"column", gap:48 }}>
