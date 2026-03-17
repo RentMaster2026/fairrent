@@ -122,9 +122,23 @@ function useCountUp(target, dur=800) {
 }
 
 export default function App() {
-  const [page, setPage] = useState("home");
+  // Read initial page from URL path
+  const pathToPage = (p) => {
+    const map = { "/methodology":"methodology", "/about":"about", "/privacy":"privacy", "/terms":"terms", "/faq":"faq", "/contact":"contact" };
+    return map[p] || "home";
+  };
+
+  const [page, setPage] = useState(() => pathToPage(window.location.pathname));
   const [counts, setCounts] = useState({ ottawa:0, toronto:0, vancouver:0 });
   const [countsLoaded, setCountsLoaded] = useState(false);
+
+  // Update URL when page changes
+  function navigate(pg) {
+    const pageToPath = { home:"/", methodology:"/methodology", about:"/about", privacy:"/privacy", terms:"/terms", faq:"/faq", contact:"/contact" };
+    window.history.pushState({}, "", pageToPath[pg] || "/");
+    setPage(pg);
+    window.scrollTo(0, 0);
+  }
 
   const totalRaw = counts.ottawa + counts.toronto + counts.vancouver;
   const totalDisplay = useCountUp(countsLoaded ? totalRaw : 0);
@@ -148,12 +162,12 @@ export default function App() {
     }).catch(()=>{});
   }, []);
 
-  if (page==="methodology") return <><style>{CSS}</style><MethodologyPage onBack={()=>setPage("home")}/></>;
-  if (page==="about")       return <><style>{CSS}</style><AboutPage       onBack={()=>setPage("home")}/></>;
-  if (page==="privacy")     return <><style>{CSS}</style><PrivacyPage     onBack={()=>setPage("home")}/></>;
-  if (page==="terms")       return <><style>{CSS}</style><TermsPage       onBack={()=>setPage("home")}/></>;
-  if (page==="faq")         return <><style>{CSS}</style><FaqPage         onBack={()=>setPage("home")}/></>;
-  if (page==="contact")     return <><style>{CSS}</style><ContactPage     onBack={()=>setPage("home")}/></>;
+  if (page==="methodology") return <><style>{CSS}</style><MethodologyPage onBack={()=>navigate("home")}/></>;
+  if (page==="about")       return <><style>{CSS}</style><AboutPage       onBack={()=>navigate("home")}/></>;
+  if (page==="privacy")     return <><style>{CSS}</style><PrivacyPage     onBack={()=>navigate("home")}/></>;
+  if (page==="terms")       return <><style>{CSS}</style><TermsPage       onBack={()=>navigate("home")}/></>;
+  if (page==="faq")         return <><style>{CSS}</style><FaqPage         onBack={()=>navigate("home")}/></>;
+  if (page==="contact")     return <><style>{CSS}</style><ContactPage     onBack={()=>navigate("home")}/></>;
 
   return (
     <>
@@ -171,7 +185,7 @@ export default function App() {
         <div className="gov-subbar">
           <div className="gov-subbar-inner">
             {[["Methodology","methodology"],["About","about"],["Privacy","privacy"],["FAQ","faq"],["Contact","contact"]].map(([label,pg])=>(
-              <button key={pg} onClick={()=>setPage(pg)}>{label}</button>
+              <button key={pg} onClick={()=>navigate(pg)}>{label}</button>
             ))}
           </div>
         </div>
@@ -316,7 +330,7 @@ export default function App() {
                 <div style={{ padding:"0 14px" }}>
                   <div className="link-list">
                     {[["Methodology","methodology"],["About this project","about"],["Privacy policy","privacy"],["Terms of use","terms"],["Frequently asked questions","faq"],["Contact","contact"]].map(([label,pg])=>(
-                      <button key={pg} className="link-item" onClick={()=>setPage(pg)}>
+                      <button key={pg} className="link-item" onClick={()=>navigate(pg)}>
                         {label}
                         <span className="link-arrow">&rarr;</span>
                       </button>
