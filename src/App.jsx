@@ -54,7 +54,8 @@ const CSS = `
   .trust-item { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--t2); }
   .trust-check { color:var(--accent); font-weight:700; font-size:13px; }
 
-  .page-grid { display:grid; grid-template-columns:1fr 320px; gap:24px; align-items:start; }
+  .page-grid { display:grid; grid-template-columns:1fr 300px; gap:24px; align-items:start; }
+  .sidebar-col { position:sticky; top:88px; display:flex; flex-direction:column; gap:16px; }
 
   .city-table { width:100%; border-collapse:collapse; background:var(--white); border:1px solid var(--border); }
   .city-table thead th { padding:10px 14px; background:#f0f0f0; border-bottom:2px solid var(--border-dark); font-size:12px; font-weight:700; text-align:left; text-transform:uppercase; letter-spacing:0.04em; color:var(--t2); }
@@ -98,14 +99,17 @@ const CSS = `
 
   .disclaimer { font-size:11px; color:var(--t3); line-height:1.6; padding-top:16px; border-top:1px solid var(--border); margin-top:24px; }
 
-  @media(max-width:760px) {
+  @media(max-width:820px) {
     .page-grid { grid-template-columns:1fr; }
+    .sidebar-col { position:static; }
     .city-table thead th:nth-child(2) { display:none; }
     .city-table td:nth-child(2) { display:none; }
   }
   @media(max-width:480px) {
-    .page-wrap { padding:20px 12px 48px; }
-    .gov-subbar-inner { gap:16px; }
+    .page-wrap { padding:16px 12px 40px; }
+    .gov-subbar-inner { gap:14px; }
+    .gov-wordmark { font-size:13px; }
+    .city-cta { padding:6px 10px; font-size:11px; }
   }
 `;
 
@@ -290,7 +294,7 @@ export default function App() {
             </div>
 
             {/* RIGHT SIDEBAR */}
-            <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+            <div className="sidebar-col">
 
               {/* Submission count */}
               <div className="sidebar-panel">
