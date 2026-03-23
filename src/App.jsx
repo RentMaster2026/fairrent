@@ -254,7 +254,7 @@ export default function App() {
                 {[
                   { n:"1", title:"Enter your rental details", desc:"Select your city, neighbourhood, and unit type. Enter your monthly rent and move-in year. Takes about 60 seconds." },
                   { n:"2", title:"We compare against real data", desc:"Your rent is matched against CMHC survey data and anonymous submissions from renters in the same neighbourhood and unit type." },
-                  { n:"3", title:"Receive a market position report", desc:"You get an estimated fair range, a confidence score, and — for Ontario units — a rent control status and estimated legal maximum." },
+                  { n:"3", title:"Receive a market position report", desc:"You get an estimated fair range, a confidence score, and, for Ontario units, a rent control status and estimated legal maximum." },
                 ].map(({n,title,desc})=>(
                   <div key={n} className="how-step">
                     <span className="how-num">{n}</span>
@@ -270,9 +270,9 @@ export default function App() {
               <div className="how-panel">
                 <div className="how-panel-header">Why this matters</div>
                 {[
-                  { title:"Published averages are misleading", desc:"CMHC data is comprehensive but lags 12–18 months. Listing-site averages reflect asking prices, not signed rents. Neighbourhood-level data is rarely published." },
+                  { title:"Published averages are misleading", desc:"CMHC data is comprehensive but lags 12 to 18 months. Listing-site averages reflect asking prices, not signed rents. Neighbourhood-level data is rarely published." },
                   { title:"Rents vary widely within the same city", desc:"A 1-bedroom in one Ottawa neighbourhood can rent for $600 more per month than the same unit a few kilometres away. City-wide averages hide this." },
-                  { title:"This tool shows your real market position", desc:"We combine official data with anonymized tenant submissions to produce a neighbourhood-level range — and tell you the confidence level behind it." },
+                  { title:"This tool shows your real market position", desc:"We combine official data with anonymized tenant submissions to produce a neighbourhood-level range and tell you the confidence level behind it." },
                 ].map(({title,desc})=>(
                   <div key={title} className="how-step">
                     <span className="how-num" style={{ color:"var(--t3)" }}>&#8212;</span>
