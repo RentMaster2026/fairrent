@@ -109,7 +109,7 @@
     (function() {
       function hideShell() {
         var shell = document.getElementById('static-shell');
-        if (shell) shell.style.display = 'none';
+        if (shell) shell.style.display = 'none'; var nav = document.querySelector('.s-nav'); if (nav) nav.style.display = 'none';
       }
       function watch() {
         var root = document.getElementById('root');
