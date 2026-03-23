@@ -1,22 +1,119 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#1c2b36" />
-    <title>Fair Rent Canada — Canadian Rent Analysis Tool</title>
-    <meta name="description" content="Free, anonymous tool to check if your rent is fair. Based on CMHC data and real renter submissions across Ottawa, Toronto, and Vancouver. No account required." />
-    <meta property="og:title" content="Fair Rent Canada — Canadian Rent Analysis Tool" />
-    <meta property="og:description" content="Check if your rent is fair. Free, anonymous, CMHC-sourced data." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://fairrent.ca" />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://fairrent.ca" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1c2b36" />
+  <title>Fair Rent Canada | Canadian Rent Calculator | Is My Rent Fair?</title>
+  <meta name="description" content="Free Canadian rent calculator. Check if your rent is fair in Ottawa, Toronto, or Vancouver. Based on CMHC data and real renter submissions. Anonymous, no account needed." />
+  <link rel="canonical" href="https://fairrent.ca/" />
+  <meta name="robots" content="index, follow" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon.svg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://fairrent.ca/" />
+  <meta property="og:title" content="Fair Rent Canada | Canadian Rent Calculator" />
+  <meta property="og:description" content="Free Canadian rent calculator. Check if your rent is fair in Ottawa, Toronto, or Vancouver. Based on CMHC data and real renter submissions." />
+  <meta property="og:site_name" content="Fair Rent Canada" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Organization","name":"Fair Rent Canada","url":"https://fairrent.ca","description":"Free, anonymous Canadian rent analysis tool. Compare your rent to real market data in Ottawa, Toronto, and Vancouver.","sameAs":["https://ottawafairrent.ca","https://torontofairrent.ca","https://vancouverfairrent.ca"]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Fair Rent Canada free to use?","acceptedAnswer":{"@type":"Answer","text":"Yes. Fair Rent Canada is completely free to use. No account is required and no personal information is collected."}},{"@type":"Question","name":"Which cities does Fair Rent Canada cover?","acceptedAnswer":{"@type":"Answer","text":"Fair Rent Canada currently covers Ottawa, Toronto, and Vancouver, with neighbourhood-level data for each city."}},{"@type":"Question","name":"How does Fair Rent Canada calculate rent estimates?","acceptedAnswer":{"@type":"Answer","text":"Estimates are built from CMHC's annual Rental Market Survey, Rentals.ca monthly data, and anonymous rent submissions from renters who have used this tool. Results show a range with a confidence score, not a single number."}},{"@type":"Question","name":"Is my submission anonymous?","acceptedAnswer":{"@type":"Answer","text":"Yes. We do not collect your name, email, IP address, or any personal identifying information. We store only your neighbourhood, unit type, monthly rent, and move-in year."}}]}
+  </script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#f5f5f5;color:#111;line-height:1.5;}
+    .s-nav{background:#1c2b36;border-bottom:3px solid #1a5c34;padding:0 16px;height:48px;display:flex;align-items:center;}
+    .s-nav span{font-size:14px;font-weight:700;color:#fff;}
+    .s-wrap{max-width:900px;margin:0 auto;padding:28px 16px 48px;}
+    .s-h1{font-size:clamp(20px,4vw,30px);font-weight:700;color:#111;margin-bottom:10px;line-height:1.2;}
+    .s-intro{font-size:14px;color:#444;line-height:1.65;max-width:640px;margin-bottom:24px;}
+    .s-section{margin-bottom:24px;}
+    .s-h2{font-size:16px;font-weight:700;color:#111;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #ccc;}
+    .s-cities{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:16px;}
+    .s-city{background:#fff;border:1px solid #ccc;border-top:3px solid #1a5c34;padding:16px;}
+    .s-city h2{font-size:16px;font-weight:700;color:#111;margin-bottom:6px;}
+    .s-city p{font-size:13px;color:#444;margin-bottom:10px;}
+    .s-city a{font-size:13px;font-weight:700;color:#1a5c34;text-decoration:none;}
+    .s-faq-q{font-size:13px;font-weight:700;color:#111;margin-bottom:4px;}
+    .s-faq-a{font-size:13px;color:#444;line-height:1.65;margin-bottom:14px;padding-left:12px;border-left:2px solid #ccc;}
+    .s-footer{margin-top:32px;padding-top:16px;border-top:1px solid #ccc;font-size:11px;color:#767676;font-family:"Courier New",monospace;}
+    @media(max-width:480px){.s-wrap{padding:16px 12px 40px;}}
+  </style>
+</head>
+<body>
+  <nav class="s-nav">
+    <span>Fair Rent Canada</span>
+  </nav>
+
+  <div class="s-wrap" id="static-shell">
+    <h1 class="s-h1">Canadian Rent Calculator</h1>
+    <p class="s-intro">Check if your rent is fair. Compare your monthly rent to real data from CMHC and verified renter submissions in Ottawa, Toronto, and Vancouver. Free. Anonymous. No account required.</p>
+
+    <div class="s-section">
+      <h2 class="s-h2">Choose your city</h2>
+      <div class="s-cities">
+        <div class="s-city">
+          <h2>Ottawa Rent Calculator</h2>
+          <p>Check if your Ottawa rent is fair. Compare by neighbourhood including Glebe, Westboro, Vanier, Centretown, Kanata, and more.</p>
+          <a href="https://ottawafairrent.ca">Check Ottawa rent</a>
+        </div>
+        <div class="s-city" style="border-top-color:#1a3a7a;">
+          <h2>Toronto Rent Calculator</h2>
+          <p>Check if your Toronto rent is fair. Compare by neighbourhood including Scarborough, Etobicoke, Annex, Liberty Village, Midtown, and more.</p>
+          <a href="https://torontofairrent.ca" style="color:#1a3a7a;">Check Toronto rent</a>
+        </div>
+        <div class="s-city" style="border-top-color:#0a4a5c;">
+          <h2>Vancouver Rent Calculator</h2>
+          <p>Check if your Vancouver rent is fair. Compare by neighbourhood including Kitsilano, Burnaby, Mount Pleasant, Commercial Drive, and more.</p>
+          <a href="https://vancouverfairrent.ca" style="color:#0a4a5c;">Check Vancouver rent</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="s-section">
+      <h2 class="s-h2">About Fair Rent Canada</h2>
+      <p class="s-faq-a">Fair Rent Canada is a free, anonymous rent comparison tool for Canadian renters. We combine official data from CMHC and Rentals.ca with anonymous submissions from renters who have used this tool to produce neighbourhood-level rent estimates. The result is a range with a confidence score, not a single number.</p>
+    </div>
+
+    <div class="s-section">
+      <h2 class="s-h2">Frequently asked questions</h2>
+
+      <p class="s-faq-q">Is Fair Rent Canada free to use?</p>
+      <p class="s-faq-a">Yes. Completely free. No account required, no email address collected, no personal information stored.</p>
+
+      <p class="s-faq-q">Which cities does Fair Rent Canada cover?</p>
+      <p class="s-faq-a">We currently cover Ottawa, Toronto, and Vancouver, with neighbourhood-level data for each city. More cities will be added as renter data grows.</p>
+
+      <p class="s-faq-q">How are rent estimates calculated?</p>
+      <p class="s-faq-a">Estimates are built from CMHC's annual Rental Market Survey, Rentals.ca monthly data, and anonymous rent submissions from renters who have used this tool. Results show a range with a confidence score.</p>
+
+      <p class="s-faq-q">Is my submission anonymous?</p>
+      <p class="s-faq-a">Yes. We do not collect your name, email, IP address, or any identifying information. We store only your neighbourhood, unit type, monthly rent, and move-in year.</p>
+
+      <p class="s-faq-q">Can I use this in a rent dispute?</p>
+      <p class="s-faq-a">No. This tool provides general market estimates only. It is not legal advice and should not be used in formal rent dispute proceedings. For legal help, contact a licensed paralegal or your provincial tenant rights organization.</p>
+    </div>
+
+    <p class="s-footer">Fair Rent Canada. Free Canadian rent analysis tool. Data: CMHC 2025, Rentals.ca Feb 2025, community submissions. Not legal advice.</p>
+  </div>
+
+  <div id="root"></div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var observer = new MutationObserver(function() {
+        var root = document.getElementById('root');
+        if (root && root.children.length > 0) {
+          var shell = document.getElementById('static-shell');
+          if (shell) shell.style.display = 'none';
+          observer.disconnect();
+        }
+      });
+      var root = document.getElementById('root');
+      if (root) observer.observe(root, { childList: true });
+    });
+  </script>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
 </html>
