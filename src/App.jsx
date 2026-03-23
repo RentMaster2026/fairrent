@@ -16,103 +16,95 @@ const CITIES = [
 
 const CSS = `
   :root {
-    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    --mono: "Courier New", Courier, monospace;
-    --bg:   #f5f5f5;
-    --white:#ffffff;
-    --border: #cccccc;
-    --border-dark: #999999;
-    --t1: #111111;
-    --t2: #444444;
-    --t3: #767676;
-    --accent: #1a5c34;
-    --accent-bg: #f0f7f2;
-    --nav-bg: #1c2b36;
-    --bar-bg: #2f4553;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    --mono:"Courier New",Courier,monospace;
+    --bg:#f5f5f5; --white:#ffffff;
+    --border:#cccccc; --border-dark:#999999;
+    --t1:#111111; --t2:#444444; --t3:#767676;
+    --accent:#1a5c34; --accent-bg:#f0f7f2;
+    --nav-bg:#1c2b36; --bar-bg:#2f4553;
   }
-  html,body,#root { margin:0; padding:0; width:100%; background:var(--bg); }
-  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-  body { font-family:var(--sans); font-size:15px; color:var(--t1); -webkit-font-smoothing:antialiased; line-height:1.5; }
-  button { font-family:var(--sans); cursor:pointer; }
+  html,body,#root{margin:0;padding:0;width:100%;background:var(--bg);}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--sans);font-size:15px;color:var(--t1);-webkit-font-smoothing:antialiased;line-height:1.5;}
+  button{font-family:var(--sans);cursor:pointer;}
 
-  .gov-nav { background:var(--nav-bg); border-bottom:3px solid var(--accent); }
-  .gov-nav-inner { max-width:1100px; margin:0 auto; padding:0 16px; display:flex; align-items:center; height:48px; gap:16px; }
-  .gov-wordmark { font-size:14px; font-weight:700; color:#ffffff; text-decoration:none; white-space:nowrap; }
+  /* Nav */
+  .gov-nav{background:var(--nav-bg);border-bottom:3px solid var(--accent);}
+  .gov-nav-inner{max-width:1100px;margin:0 auto;padding:0 16px;display:flex;align-items:center;height:48px;gap:16px;}
+  .gov-wordmark{font-size:14px;font-weight:700;color:#fff;text-decoration:none;white-space:nowrap;}
+  .gov-subbar{background:var(--bar-bg);border-bottom:1px solid #3d5a6e;}
+  .gov-subbar-inner{max-width:1100px;margin:0 auto;padding:0 16px;height:36px;display:flex;align-items:center;gap:20px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  .gov-subbar-inner::-webkit-scrollbar{display:none;}
+  .gov-subbar button{background:none;border:none;font-size:12px;color:#aab8c2;cursor:pointer;padding:0;white-space:nowrap;flex-shrink:0;}
+  .gov-subbar button:hover{color:#fff;text-decoration:underline;}
 
-  .gov-subbar { background:var(--bar-bg); border-bottom:1px solid #3d5a6e; }
-  .gov-subbar-inner { max-width:1100px; margin:0 auto; padding:0 16px; display:flex; align-items:center; height:36px; gap:24px; flex-wrap:wrap; }
-  .gov-subbar button { background:none; border:none; font-size:12px; color:#aab8c2; cursor:pointer; padding:0; }
-  .gov-subbar button:hover { color:#ffffff; text-decoration:underline; }
+  /* Layout */
+  .page-wrap{max-width:1100px;margin:0 auto;padding:28px 20px 60px;}
+  .page-hero{margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+  .page-hero h1{font-size:clamp(18px,2.5vw,26px);font-weight:700;color:var(--t1);margin-bottom:8px;line-height:1.2;}
+  .page-hero p{font-size:14px;color:var(--t2);line-height:1.6;max-width:580px;}
+  .trust-bar{display:flex;flex-wrap:wrap;gap:8px 20px;margin-bottom:24px;padding:10px 14px;background:var(--white);border:1px solid var(--border);border-left:3px solid var(--accent);}
+  .trust-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t2);}
+  .trust-check{color:var(--accent);font-weight:700;font-size:13px;}
 
-  .page-wrap { max-width:1100px; margin:0 auto; padding:32px 16px 64px; }
+  /* Two-column */
+  .page-grid{display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start;}
+  .main-col{display:flex;flex-direction:column;gap:16px;}
+  .sidebar-col{display:flex;flex-direction:column;gap:16px;position:sticky;top:88px;}
 
-  .page-hero { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border); }
-  .page-hero h1 { font-size:clamp(20px,3vw,28px); font-weight:700; color:var(--t1); margin-bottom:8px; line-height:1.2; }
-  .page-hero p  { font-size:14px; color:var(--t2); line-height:1.6; max-width:640px; }
+  /* City table */
+  .city-table{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--border);}
+  .city-table thead th{padding:9px 14px;background:#f0f0f0;border-bottom:2px solid var(--border-dark);font-size:11px;font-weight:700;text-align:left;text-transform:uppercase;letter-spacing:0.04em;color:var(--t2);}
+  .city-table tbody tr{border-bottom:1px solid var(--border);}
+  .city-table tbody tr:last-child{border-bottom:none;}
+  .city-table tbody tr:hover{background:#fafafa;}
+  .city-table td{padding:13px 14px;vertical-align:middle;}
+  .city-link{font-size:15px;font-weight:700;color:var(--t1);text-decoration:none;display:block;}
+  .city-link:hover{color:var(--accent);text-decoration:underline;}
+  .city-province{font-size:12px;color:var(--t3);margin-top:2px;}
+  .city-count{font-family:var(--mono);font-size:13px;color:var(--t2);}
+  .city-cta{display:inline-block;padding:7px 14px;background:var(--accent);color:#fff;font-size:12px;font-weight:700;text-decoration:none;letter-spacing:0.02em;}
+  .city-cta:hover{opacity:0.85;}
 
-  .trust-bar { display:flex; flex-wrap:wrap; gap:6px 24px; margin-bottom:28px; padding:10px 14px; background:var(--white); border:1px solid var(--border); border-left:3px solid var(--accent); }
-  .trust-item { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--t2); }
-  .trust-check { color:var(--accent); font-weight:700; font-size:13px; }
+  /* Panels */
+  .how-panel{background:var(--white);border:1px solid var(--border);}
+  .how-panel-header{padding:9px 14px;background:#f0f0f0;border-bottom:1px solid var(--border);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--t2);}
+  .how-step{display:flex;gap:12px;padding:13px 14px;border-bottom:1px solid var(--border);}
+  .how-step:last-child{border-bottom:none;}
+  .how-num{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--accent);width:20px;flex-shrink:0;padding-top:1px;}
+  .how-title{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:3px;}
+  .how-desc{font-size:12px;color:var(--t2);line-height:1.55;}
+  .sidebar-panel{background:var(--white);border:1px solid var(--border);}
+  .sidebar-header{padding:9px 14px;background:#f0f0f0;border-bottom:1px solid var(--border);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--t2);}
+  .sidebar-body{padding:14px;}
+  .total-count{font-family:var(--mono);font-size:26px;font-weight:700;color:var(--t1);line-height:1;margin-bottom:4px;}
+  .total-label{font-size:12px;color:var(--t3);}
+  .source-row{display:flex;gap:8px;align-items:flex-start;padding:8px 0;border-bottom:1px solid #ebebeb;}
+  .source-row:last-child{border-bottom:none;}
+  .source-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:4px;}
+  .source-name{font-size:13px;font-weight:600;color:var(--t1);}
+  .source-freq{font-size:11px;color:var(--t3);font-family:var(--mono);}
+  .link-list{display:flex;flex-direction:column;}
+  .link-item{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #ebebeb;font-size:13px;color:var(--t2);background:none;border-left:none;border-right:none;border-top:none;text-align:left;width:100%;cursor:pointer;}
+  .link-item:last-child{border-bottom:none;}
+  .link-item:hover{color:var(--accent);}
+  .link-arrow{font-size:11px;color:var(--t3);}
+  .disclaimer{font-size:11px;color:var(--t3);line-height:1.6;padding-top:14px;border-top:1px solid var(--border);margin-top:20px;}
 
-  .page-grid { display:grid; grid-template-columns:1fr 300px; gap:24px; align-items:start; }
-  .sidebar-col { position:sticky; top:88px; display:flex; flex-direction:column; gap:16px; }
-
-  .city-table { width:100%; border-collapse:collapse; background:var(--white); border:1px solid var(--border); }
-  .city-table thead th { padding:10px 14px; background:#f0f0f0; border-bottom:2px solid var(--border-dark); font-size:12px; font-weight:700; text-align:left; text-transform:uppercase; letter-spacing:0.04em; color:var(--t2); }
-  .city-table tbody tr { border-bottom:1px solid var(--border); }
-  .city-table tbody tr:last-child { border-bottom:none; }
-  .city-table tbody tr:hover { background:#fafafa; }
-  .city-table td { padding:14px; vertical-align:middle; }
-  .city-link { font-size:15px; font-weight:700; color:var(--t1); text-decoration:none; display:block; }
-  .city-link:hover { color:var(--accent); text-decoration:underline; }
-  .city-province { font-size:12px; color:var(--t3); margin-top:2px; }
-  .city-count { font-family:var(--mono); font-size:13px; color:var(--t2); }
-  .city-cta { display:inline-block; padding:7px 14px; background:var(--accent); color:#fff; font-size:12px; font-weight:700; text-decoration:none; letter-spacing:0.02em; }
-  .city-cta:hover { opacity:0.85; }
-
-  .how-panel { background:var(--white); border:1px solid var(--border); margin-top:0; }
-  .how-panel-header { padding:10px 14px; background:#f0f0f0; border-bottom:1px solid var(--border); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--t2); }
-  .how-step { display:flex; gap:12px; padding:14px; border-bottom:1px solid var(--border); }
-  .how-step:last-child { border-bottom:none; }
-  .how-num { font-family:var(--mono); font-size:12px; font-weight:700; color:var(--accent); width:20px; flex-shrink:0; padding-top:1px; }
-  .how-title { font-size:13px; font-weight:700; color:var(--t1); margin-bottom:3px; }
-  .how-desc  { font-size:12px; color:var(--t2); line-height:1.5; }
-
-  .sidebar-panel { background:var(--white); border:1px solid var(--border); }
-  .sidebar-header { padding:10px 14px; background:#f0f0f0; border-bottom:1px solid var(--border); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--t2); }
-  .sidebar-body { padding:14px; }
-
-  .total-count { font-family:var(--mono); font-size:28px; font-weight:700; color:var(--t1); line-height:1; margin-bottom:4px; }
-  .total-label { font-size:12px; color:var(--t3); }
-
-  .source-row { display:flex; gap:8px; align-items:flex-start; padding:8px 0; border-bottom:1px solid #ebebeb; }
-  .source-row:last-child { border-bottom:none; }
-  .source-dot { width:7px; height:7px; border-radius:50%; background:var(--accent); flex-shrink:0; margin-top:5px; }
-  .source-name { font-size:13px; font-weight:600; color:var(--t1); }
-  .source-freq { font-size:11px; color:var(--t3); font-family:var(--mono); }
-
-  .link-list { display:flex; flex-direction:column; }
-  .link-item { display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px solid #ebebeb; font-size:13px; color:var(--t2); background:none; border-left:none; border-right:none; border-top:none; text-align:left; width:100%; cursor:pointer; }
-  .link-item:last-child { border-bottom:none; }
-  .link-item:hover { color:var(--accent); }
-  .link-arrow { font-size:11px; color:var(--t3); }
-
-  .disclaimer { font-size:11px; color:var(--t3); line-height:1.6; padding-top:16px; border-top:1px solid var(--border); margin-top:24px; }
-
-  @media(max-width:820px) {
-    .page-grid { grid-template-columns:1fr; }
-    .sidebar-col { position:static; }
-    .city-table thead th:nth-child(2) { display:none; }
-    .city-table td:nth-child(2) { display:none; }
+  /* Responsive */
+  @media(max-width:768px){
+    .page-grid{grid-template-columns:1fr;}
+    .sidebar-col{position:static;}
+    .city-table thead th:nth-child(2){display:none;}
+    .city-table td:nth-child(2){display:none;}
   }
-  @media(max-width:480px) {
-    .page-wrap { padding:16px 12px 40px; }
-    .gov-subbar-inner { gap:14px; }
-    .gov-wordmark { font-size:13px; }
-    .city-cta { padding:6px 10px; font-size:11px; }
+  @media(max-width:480px){
+    .page-wrap{padding:16px 14px 40px;}
+    .gov-subbar-inner{gap:14px;}
+    .city-cta{padding:6px 10px;font-size:11px;}
   }
 `;
-
 function useCountUp(target, dur=800) {
   const [val,set] = useState(0), raf = useRef(null), prev = useRef(0);
   useEffect(() => {
@@ -225,7 +217,7 @@ export default function App() {
           <div className="page-grid">
 
             {/* LEFT */}
-            <div style={{ display:"flex", flexDirection:"column", gap:20 }}>
+            <div className="main-col">
 
               {/* City table */}
               <table className="city-table">
