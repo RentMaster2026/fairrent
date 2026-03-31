@@ -75,7 +75,13 @@ const CSS = `
   .faq-icon{font-size:16px;color:var(--t3);font-weight:700;flex-shrink:0;line-height:1;}
   .faq-body{font-size:13px;color:var(--t2);line-height:1.75;padding-bottom:12px;}
   .footer-note{margin-top:32px;padding-top:16px;border-top:1px solid var(--border);font-size:11px;color:var(--t3);text-align:center;font-family:var(--mono);}
-  @media(max-width:560px){.update-grid{grid-template-columns:1fr;}.page-wrap{padding:20px 12px 48px;}}
+  @media(max-width:768px){
+    .data-table,.blend-table,.score-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    .update-grid{grid-template-columns:1fr;}
+    .page-wrap{padding:20px 12px 48px;}
+    .panel-body{padding:12px;}
+    .score-breakdown-grid{grid-template-columns:1fr;}
+  }
 `;
 
 function FaqItem({ q, a }) {
